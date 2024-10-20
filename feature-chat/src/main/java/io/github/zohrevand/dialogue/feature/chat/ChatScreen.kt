@@ -311,10 +311,10 @@ private fun ChatState(
 ) {
     if (uiState.shouldShowChatState) {
         val postfixText =
-            if (uiState.conversation.chatState == Composing) "is typing..."
-            else "stopped typing."
+            if (uiState.conversation.chatState == Composing) "..."
+            else "stopped typing"
         Text(
-            text = "${uiState.conversation.peerLocalPart} $postfixText",
+            text = "$postfixText",
             style = MaterialTheme.typography.bodySmall,
             color = Color.Gray,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
