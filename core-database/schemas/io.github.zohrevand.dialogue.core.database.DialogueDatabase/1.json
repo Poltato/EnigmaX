@@ -1,0 +1,278 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "7edd7d7beb2a769113394bb098b17930",
+    "entities": [
+      {
+        "tableName": "contacts",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`jid` TEXT NOT NULL, `presence_type` TEXT NOT NULL, `presence_mode` TEXT NOT NULL, `presence_status` TEXT NOT NULL, `presence_priority` INTEGER NOT NULL, `last_time` INTEGER NOT NULL, `should_add_to_roster` INTEGER NOT NULL, PRIMARY KEY(`jid`))",
+        "fields": [
+          {
+            "fieldPath": "jid",
+            "columnName": "jid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "presenceType",
+            "columnName": "presence_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "presenceMode",
+            "columnName": "presence_mode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "presenceStatus",
+            "columnName": "presence_status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "presencePriority",
+            "columnName": "presence_priority",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastTime",
+            "columnName": "last_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "shouldAddToRoster",
+            "columnName": "should_add_to_roster",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "jid"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "messages",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `stanza_id` TEXT NOT NULL, `peer_jid` TEXT NOT NULL, `body` TEXT NOT NULL, `send_time` INTEGER NOT NULL, `status` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stanzaId",
+            "columnName": "stanza_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "peerJid",
+            "columnName": "peer_jid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "body",
+            "columnName": "body",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sendTime",
+            "columnName": "send_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "conversations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`peer_jid` TEXT NOT NULL, `draft_message` TEXT, `last_message_id` INTEGER, `unread_messages_count` INTEGER NOT NULL, `chat_state` TEXT NOT NULL, `is_chat_open` INTEGER NOT NULL, PRIMARY KEY(`peer_jid`), FOREIGN KEY(`last_message_id`) REFERENCES `messages`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "peerJid",
+            "columnName": "peer_jid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "draftMessage",
+            "columnName": "draft_message",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastMessageId",
+            "columnName": "last_message_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "unreadMessagesCount",
+            "columnName": "unread_messages_count",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "chatState",
+            "columnName": "chat_state",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isChatOpen",
+            "columnName": "is_chat_open",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "peer_jid"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_conversations_last_message_id",
+            "unique": false,
+            "columnNames": [
+              "last_message_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_conversations_last_message_id` ON `${TABLE_NAME}` (`last_message_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "messages",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "last_message_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "sending_chat_state",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `peer_jid` TEXT NOT NULL, `chat_state` TEXT NOT NULL, `consumed` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "peerJid",
+            "columnName": "peer_jid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "chatState",
+            "columnName": "chat_state",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "consumed",
+            "columnName": "consumed",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "last_messages",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`peer_jid` TEXT NOT NULL, `last_message_id` INTEGER NOT NULL, PRIMARY KEY(`peer_jid`), FOREIGN KEY(`last_message_id`) REFERENCES `messages`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "peerJid",
+            "columnName": "peer_jid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "last_message_id",
+            "columnName": "last_message_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "peer_jid"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_last_messages_last_message_id",
+            "unique": false,
+            "columnNames": [
+              "last_message_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_last_messages_last_message_id` ON `${TABLE_NAME}` (`last_message_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "messages",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "last_message_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7edd7d7beb2a769113394bb098b17930')"
+    ]
+  }
+}
