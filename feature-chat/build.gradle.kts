@@ -39,10 +39,10 @@ dependencies {
     implementation(libs.smack.android.extensions)
 
     testImplementation(project(":core-testing"))
-    testImplementation(libs.junit)
+    testImplementation(libs.junit4)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.androidx.arch.core.testing)
-    testImplementation(libs.androidx.test.ext.junit)
+    testImplementation(libs.androidx.test.ext)
     testImplementation(libs.androidx.test.espresso.core)
 }
