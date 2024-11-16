@@ -10,9 +10,9 @@ plugins {
 
 android {
     defaultConfig {
-        applicationId = "io.github.zohrevand.dialogue"
-        versionCode = 1
-        versionName = "0.0.1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
+        applicationId = "org.eu.fiorencis.enigmax"
+        versionCode = 2
+        versionName = "0.0.2" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
         // Custom test runner to set up Hilt dependency graph
         testInstrumentationRunner = "io.github.zohrevand.dialogue.core.testing.DialogueTestRunner"
