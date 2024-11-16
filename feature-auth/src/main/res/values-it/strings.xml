@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">Accedi</string>
+    <string name="password">Password</string>
+    <string name="jabber_id">Jabber ID</string>
+    <string name="login_title">Inserisci le tue informazioni di accesso</string>
+    <string name="error_jabber_id_not_valid">ID Jabber non valido</string>
+    <string name="error_password_not_valid">Password non valida</string>
+    <string name="hide_password">Nascondi password</string>
+    <string name="show_password">Mostra password</string>
+</resources>

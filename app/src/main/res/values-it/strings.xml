@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="conversations">Chat</string>
+    <string name="contacts">Contatti</string>
+    <string name="connecting">Connessione…</string>
+    <string name="settings">Impostazioni</string>
+</resources>
