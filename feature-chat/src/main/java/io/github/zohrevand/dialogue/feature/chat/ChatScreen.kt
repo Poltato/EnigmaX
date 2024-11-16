@@ -70,6 +70,29 @@ import io.github.zohrevand.dialogue.feature.chat.R.string.back
 import io.github.zohrevand.dialogue.feature.chat.R.string.chat
 import io.github.zohrevand.dialogue.feature.chat.R.string.send
 import kotlinx.datetime.LocalDate
+import org.jivesoftware.smack.chat2.Chat
+import org.jivesoftware.smack.chat2.ChatManager
+import org.jivesoftware.smack.omemo.OmemoManager
+import org.jivesoftware.smack.tcp.XMPPTCPConnection
+
+// Flag to toggle encryption
+var useOmemoEncryption = true
+
+// Function to send a message with or without encryption based on the flag
+fun sendMessage(omemoManager: OmemoManager, recipientJid: String, message: String) {
+    if (useOmemoEncryption) {
+        sendOmemoMessage(omemoManager, recipientJid, message)
+    } else {
+        sendUnencryptedMessage(omemoManager.connection, recipientJid, message)
+    }
+}
+
+// Function to send an unencrypted message
+fun sendUnencryptedMessage(connection: XMPPTCPConnection, recipientJid: String, message: String) {
+    val chatManager = ChatManager.getInstanceFor(connection)
+    val chat = chatManager.chatWith(recipientJid)
+    chat.send(message)
+}
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -109,6 +132,7 @@ fun ChatScreen(
         }
     }
 
+    // Clear focus when the keyboard is closed
     LaunchedEffect(keyboardState) {
         if (keyboardState == KeyboardState.Closed) {
             focusManager.clearFocus()
@@ -173,7 +197,7 @@ fun ChatScreen(
         }
     }
 
-    // override back handler to send back contactId
+    // Override back handler to send back contactId
     // in order to reset conversation's isChatOpen property
     BackHandler {
         onBackClick(uiState.contactId)
